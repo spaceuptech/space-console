@@ -3,7 +3,8 @@ export const colors = {
   secondaryHeading1: "#9F9F9F",
   secondaryHeading2: "#BDBDBD",
   secondaryHeading3: "rgba(3, 27, 79, 0.7)",
-  link: "#1890FF"
+  link: "#1890FF",
+  buttonPrimary1: "#8381E0"
 }
 
 export const fontSizes = {

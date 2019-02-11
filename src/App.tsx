@@ -3,6 +3,7 @@ import { Router, Route } from "react-router-dom";
 import history from "./history";
 import SpaceCloudTheme from "./styles/theme";
 import HomeComponent from "./components/home/HomeComponent";
+import ProjectComponent from "./components/project/ProjectComponent";
 
 class App extends React.Component<{}, {}> {
   render() {
@@ -10,11 +11,15 @@ class App extends React.Component<{}, {}> {
       <SpaceCloudTheme>
         <Router history={history}>
           <div style={{ height: "100%" }}>
-            <Route component={HomeComponent} />
+            <Route exact path="/" component={HomeComponent} />
+            <Route
+              path="/projects/:projectId"
+              render={routeProps => <ProjectComponent {...routeProps}/>}
+            />
           </div>
         </Router>
       </SpaceCloudTheme>
-    )
+    );
   }
 }
 

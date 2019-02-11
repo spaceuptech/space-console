@@ -7,6 +7,9 @@ const theme = createMuiTheme({
     primary: {
       main: "#FF6700",
       contrastText: "white"
+    },
+    background: {
+      default: "white"
     }
   },
   typography: {
@@ -52,10 +55,15 @@ const theme = createMuiTheme({
       fontSize: fontSizes.body
     },
     subheading: {
-      fontFamily: fontFamilies.openSans,
-      color: colors.secondaryHeading3,
-      fontSize: fontSizes.caption2
+      fontFamily: fontFamilies.raleway,
+      color: colors.primaryNavy,
+      fontSize: fontSizes.body
     },
+    // subheading: {
+    //   fontFamily: fontFamilies.openSans,
+    //   color: colors.secondaryHeading3,
+    //   fontSize: fontSizes.caption2
+    // },
     body1: {
       fontFamily: fontFamilies.openSans,
       color: colors.secondaryHeading1,
