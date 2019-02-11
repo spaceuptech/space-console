@@ -1,9 +1,13 @@
 import React from "react";
+import {Route} from "react-router-dom";
+
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
+
 import SidenavComponent from "./SidenavComponent";
 import TopbarComponent from "./topbar/TopbarComponent";
+import OverviewComponent from "./sections/overview/OverviewComponent";
 
 const styles = (theme: any) => ({
   root: {
@@ -28,7 +32,7 @@ function PermanentDrawerLeft(props: any) {
       <TopbarComponent unsavedChanges={false}/>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        
+        <Route exact path="/projects/:projectId" component={OverviewComponent} />
       </main>
     </div>
   );

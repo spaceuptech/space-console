@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import { Project } from "./ProjectCardComponent";
 import ProjectCard from "./ProjectCardComponent";
 
-const noProjectsImg = require("./noProjects.jpg");
+const noProjectsImg = require("../../../images/noProjects.jpg");
 
 const styles = (theme: any) => ({
   container: {

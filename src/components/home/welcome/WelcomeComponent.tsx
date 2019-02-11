@@ -24,13 +24,13 @@ const styles = (theme: any) => ({
     marginTop: theme.spacing.unit * 4
   },
   link: {
-    color: colors.link,
+    color: colors.secondaryColor,
     textDecoration: "underline",
     fontSize: "16px",
     marginLeft: theme.spacing.unit * 1
   },
   linkIcon: {
-    color: colors.link,
+    color: colors.secondaryColor,
     position: "relative" as "relative",
     top: "6px",
     marginLeft: theme.spacing.unit * 2

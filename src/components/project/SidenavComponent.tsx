@@ -43,7 +43,7 @@ const styles = (theme: any) => ({
     paddingBottom: theme.spacing.unit * 2
   },
   listItemIcon: {
-    color: colors.buttonPrimary1
+    color: colors.secondaryColor
   },
   link: {
     textDecoration: "none"

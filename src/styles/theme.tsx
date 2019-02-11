@@ -5,7 +5,11 @@ import { colors, fontFamilies, fontSizes } from "./constants";
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#FF6700",
+      main: colors.primaryColor,
+      contrastText: "white"
+    },
+    secondary: {
+      main: colors.secondaryColor,
       contrastText: "white"
     },
     background: {

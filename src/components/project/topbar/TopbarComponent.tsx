@@ -43,7 +43,7 @@ const topbarStyles = (theme: any) => ({
     fontSize: "16px"
   },
   menuItemIconHolder: {
-    color: colors.buttonPrimary1
+    color: colors.secondaryColor
   },
   menuItemTextHolder: {
     paddingLeft: theme.spacing.unit * 2
