@@ -49,6 +49,34 @@ const theme = createMuiTheme({
       indicator: {
         backgroundColor: "#1890ff"
       }
+    },
+    MuiInputBase: {
+      input: {
+        borderRadius: 2,
+        position: "relative",
+        backgroundColor: "white",
+        border: "1px solid #ced4da",
+        fontSize: 16,
+        width: "100%",
+        height: "38px",
+        padding: "4px 12px",
+        transition: "all .3s",
+        borderColor: "1px solid #d9d9d9",
+        fontFamily: "inherit",
+        "&:focus": {
+          borderRadius: 4,
+          borderColor: "#80bdff",
+          boxShadow: "0 0 0 0.2rem rgba(0,123,255,.25)"
+        }
+      },
+      root: {
+        background: "white !important",
+        width: "100%",
+        borderColor: "1px solid #d9d9d9",
+        "label + &": {
+          marginTop: 24
+        }
+      }
     }
   },
   typography: {

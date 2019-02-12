@@ -1,41 +1,177 @@
 import { connect } from "react-redux";
 import DatabaseComponent from "./DatabaseComponent";
+import store from "../../../../store";
+import { set, upsert } from "../../../../reducers/helper";
 
-function getCrudConfig(config: any, projectId: string, env: string) {
-  if (!config.projects || !config.projects[projectId]) {
-    return
+function getDbsMap(projectId: string, env: string): any {
+  const currentConfig = store.getState().currentConfig;
+  const dbsMapDetailed =
+    currentConfig.projects[projectId].env[env].modules.crud;
+  let dbsMap: any = {};
+  for (var dbName in dbsMapDetailed) {
+    dbsMap[dbName] = {
+      dbType: dbName,
+      isPrimary: dbsMapDetailed[dbName].isPrimary
+    };
   }
+  return dbsMap;
+}
 
-  const project = config.projects[projectId]
-  if (!project.env || !project.env[env] || !project.env[env].modules || !project.env[env].modules.crud) {
-    return
+function getPrimaryDb(projectId: string, env: string): string {
+  const currentConfig = store.getState().currentConfig;
+  const dbs = currentConfig.projects[projectId].env[env].modules.crud;
+  let primaryDb = "";
+  for (var dbName in dbs) {
+    if (dbs[dbName].isPrimary) {
+      primaryDb = dbName;
+      break;
+    }
   }
+  return primaryDb;
+}
 
-  return project.env[env].modules.crud
+function getCollections(projectId: string, env: string, dbType: string): any {
+  const currentConfig = store.getState().currentConfig;
+  const projectEnvConfig = currentConfig.projects[projectId].env[env];
+  return projectEnvConfig.modules.crud[dbType].collections;
+}
+
+function getRules(projectId: string, env: string): any {
+  const currentConfig = store.getState().currentConfig;
+  const projectEnvConfig = currentConfig.projects[projectId].env[env];
+  const selectedDb = store.getState().uiState.crud.selectedDb;
+  const selectedTableName = store.getState().uiState.crud.selectedTable;
+  const selectedTableConfig =
+    projectEnvConfig.modules.crud[selectedDb].collections[selectedTableName];
+  if (!selectedTableConfig) return "";
+  return selectedTableConfig.rules;
+}
+
+function getConn(projectId: string, env: string): any {
+  const currentConfig = store.getState().currentConfig;
+  const projectEnvConfig = currentConfig.projects[projectId].env[env];
+  const selectedDb = store.getState().uiState.crud.selectedDb;
+  const selectedDbConfig = projectEnvConfig.modules.crud[selectedDb];
+  if (!selectedDbConfig) return "";
+  return selectedDbConfig.conn;
+}
+
+function selectDb(projectId: string, env: string, dbType: string) {
+  const colls = getCollections(projectId, env, dbType);
+  store.dispatch(set("uiState.crud.selectedDb", dbType));
+  store.dispatch(set("uiState.crud.selectedTable", Object.keys(colls)[0]));
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   const projectId = ownProps.match.params.projectId;
   const env = ownProps.match.params.env;
-
+  const selectedDb = store.getState().uiState.crud.selectedDb;
   return {
     addSecondaryDb: (dbType: string) => {
-
+      dispatch(
+        upsert(
+          `currentConfig.projects.${projectId}.env.${env}.modules.crud.${dbType}`,
+          {
+            conn: "",
+            collections: {},
+            isPrimary: false
+          }
+        )
+      );
     },
     removeSecondaryDb: (dbType: string) => {
+      let currentConfig = store.getState().currentConfig;
+      delete currentConfig.projects[projectId].env[env].modules.crud[dbType];
+      dispatch(set("currentConfig", currentConfig));
 
-    }
-  }
-}
- 
+      // If removed db was a selected db then change selected db
+      if (selectedDb === dbType) {
+        selectDb(projectId, env, getPrimaryDb(projectId, env));
+      }
+    },
+    addTable: (name: string) => {
+      dispatch(
+        upsert(
+          `currentConfig.projects.${projectId}.env.${env}.modules.crud.${selectedDb}.collections.${name}`,
+          {
+            isRealtimeEnabled: false,
+            rules: JSON.stringify(
+              {
+                isSecondary: true,
+                conn: "",
+                rules: "",
+                query: { rule: "allow" },
+                insert: { rule: "allow" },
+                update: { rule: "allow" },
+                delete: { rule: "allow" }
+              },
+              null,
+              "\t"
+            )
+          }
+        )
+      );
+      dispatch(set(`uiState.crud.selectedTable`, name));
+    },
+    removeTable: (tableName: string) => {
+      let currentConfig = store.getState().currentConfig;
+      delete currentConfig.projects[projectId].env[env].modules.crud[selectedDb]
+        .collections[tableName];
+
+      dispatch(set("currentConfig", currentConfig));
+      // If removed table was a selected table then change selected table
+      const selectedTable = store.getState().uiState.crud.selectedTable;
+      if (selectedTable === tableName) {
+        const colls = getCollections(projectId, env, selectedDb);
+        if (Object.keys(colls).length) {
+          store.dispatch(set("uiState.crud.selectedTable", Object.keys(colls)[0]));
+        }
+      }
+    },
+    updateSecurityRules: (rules: string) => {
+      const selectedTable = store.getState().uiState.crud.selectedTable;
+      dispatch(
+        set(
+          `currentConfig.projects.${projectId}.env.${env}.modules.crud.${selectedDb}.collections.${selectedTable}.rules`,
+          rules
+        )
+      );
+    },
+    updateConnString: (conn: string) => {
+        dispatch(
+          set(
+            `currentConfig.projects.${projectId}.env.${env}.modules.crud.${selectedDb}.conn`,
+            conn
+          )
+        );
+    },
+    selectTable: (table: string) =>
+      dispatch(set("uiState.crud.selectedTable", table)),
+    selectDb: (dbType: string) => selectDb(projectId, env, dbType),
+    selectTab: (tabIndex: number) =>
+      dispatch(set("uiState.crud.selectedTab", tabIndex))
+  };
+};
+
 const mapStateToProps = (state: any, ownProps: any) => {
   const projectId = ownProps.match.params.projectId;
   const env = ownProps.match.params.env;
   return {
-    crud: getCrudConfig(state.config, projectId, env)
-  }
-}
+    dbsMap: getDbsMap(projectId, env),
+    selectedDb: state.uiState.crud.selectedDb,
+    selectedTable: state.uiState.crud.selectedTable,
+    selectedTab: state.uiState.crud.selectedTab,
+    collections: Object.keys(
+      getCollections(projectId, env, state.uiState.crud.selectedDb)
+    ),
+    securityRules: getRules(projectId, env),
+    connString: getConn(projectId, env)
+  };
+};
 
-const DatabaseContainer = connect(mapStateToProps)(DatabaseComponent)
+const DatabaseContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DatabaseComponent);
 
-export default DatabaseContainer
+export default DatabaseContainer;

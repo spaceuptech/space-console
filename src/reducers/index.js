@@ -13,7 +13,7 @@ const initialState = {
       desc: "Clone the tinder app and spread the love!"
     }
   ],
-  config: {
+  currentConfig: {
     "projects": {
       "todo-app": {
         "name": "Todo App",
@@ -26,7 +26,7 @@ const initialState = {
                   "conn": "localhost",
                   "collections": {
                     "table1": {
-                      "rules": {},
+                      "rules": "",
                       "isRealtimeEnabled": false
                     }
                   },
@@ -52,6 +52,13 @@ const initialState = {
           }
         }
       }
+    }
+  },
+  uiState: {
+    crud: {
+      selectedTab: 1,
+      selectedDb: "sql-mysql",
+      selectedTable: "table1"
     }
   }
 }

@@ -5,23 +5,22 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 import DatabaseCardComponent from "./DatabaseCardComponent";
-import dbsInfo from "./config";
+import dbsInfo from "../config";
 
-function getDetailedDbConfigs(dbsInfo: any, dbConfigs: any): any {
+function getDetailedDbConfigs(dbsInfo: any, dbsMap: any): any {
   let result: any = [];
   Object.keys(dbsInfo).forEach(dbType => {
     let dbConfig = Object.assign({}, { dbType }, dbsInfo[dbType], {
-      isSecondary: dbConfigs[dbType],
-      isPrimary: dbConfigs[dbType] && dbConfigs[dbType].isPrimary
+      isSecondary: dbsMap[dbType],
+      isPrimary: dbsMap[dbType] && dbsMap[dbType].isPrimary
     });
     result.push(dbConfig);
-    return result.sort((a: any, b: any) => {
-      if (a.isPrimary || (a.isSecondary && !b.isSecondary)) return -1;
-      else if (!a.isSecondary && b.isSecondary) return 1;
-      else return 0;
-    });
   });
-  return result;
+  return result.sort((a: any, b: any) => {
+    if (a.isPrimary || (a.isSecondary && !b.isSecondary)) return -1;
+    else if (!a.isSecondary && b.isSecondary) return 1;
+    else return 0;
+  });
 }
 
 const styles = (theme: any) => ({
@@ -34,11 +33,11 @@ const styles = (theme: any) => ({
 });
 
 export interface Props {
-  classes: any;
-  crud: any;
-  configure: (e: any) => void;
-  addSecondaryDb: (dbType: string) => void;
-  removeSecondaryDb: (dbType: string) => void;
+  classes: any
+  dbsMap: any
+  configure: (e: any) => void
+  addSecondaryDb: (dbType: string) => void
+  removeSecondaryDb: (dbType: string) => void
 }
 
 export interface State {}
@@ -51,8 +50,8 @@ class ConfigureDatabaseComponent extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, crud, addSecondaryDb, removeSecondaryDb, configure } = this.props;
-    const dbConfigsDetailed = getDetailedDbConfigs(dbsInfo, crud);
+    const { classes, dbsMap, addSecondaryDb, removeSecondaryDb, configure } = this.props;
+    const dbConfigsDetailed = getDetailedDbConfigs(dbsInfo, dbsMap);
     return (
       <div>
         <Typography className={classes.title}>Select Databases</Typography>
