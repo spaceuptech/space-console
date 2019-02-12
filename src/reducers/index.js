@@ -17,35 +17,37 @@ const initialState = {
     "projects": {
       "todo-app": {
         "name": "Todo App",
-        "dev": {
-          "secret": "sdfghjklfghajs",
-          "modules": {
-            "crud": {
-              "sql-mysql": {
-                "conn": "localhost",
-                "collections": {
-                  "table1": {
-                    "rules": {},
-                    "enableRealTime": false
-                  }
-                },
-                "isPrimary": "true"
-              }
-            },
-            "auth": {
-              "facebook": {
+        "env" : {
+          "dev": {
+            "secret": "sdfghjklfghajs",
+            "modules": {
+              "crud": {
+                "sql-mysql": {
+                  "conn": "localhost",
+                  "collections": {
+                    "table1": {
+                      "rules": {},
+                      "isRealtimeEnabled": false
+                    }
+                  },
+                  "isPrimary": "true"
+                }
+              },
+              "auth": {
+                "facebook": {
+                  "enabled": true,
+                  "id": "fghj",
+                  "secret": "vbnm" 
+                }
+              },
+              "faas": {
                 "enabled": true,
-                "id": "fghj",
-                "secret": "vbnm" 
+                "nats": "localhost"
+              },
+              "realtime": {
+                "enabled": true,
+                "kafka": "localhost"
               }
-            },
-            "faas": {
-              "enabled": true,
-              "nats": "localhost"
-            },
-            "realtime": {
-              "enabled": true,
-              "kafka": "localhost"
             }
           }
         }

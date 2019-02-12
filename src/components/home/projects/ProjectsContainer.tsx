@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import ProjectsComponent from "./ProjectsComponent";
-import { Config, Project } from "../../../schema"
 
 function getProjects(config: any) {
   if (!config || !config.projects) {

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import * as React from "react";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { colors, fontFamilies, fontSizes } from "./constants";
 
 const theme = createMuiTheme({
@@ -14,6 +14,41 @@ const theme = createMuiTheme({
     },
     background: {
       default: "white"
+    }
+  },
+  overrides: {
+    MuiTab: {
+      root: {
+        textTransform: "initial",
+        minWidth: "100px !important",
+        fontWeight: 400,
+        marginLeft: "32px",
+        fontFamily: fontFamilies.raleway,
+        fontSize: "16px !important",
+        "&:hover": {
+          color: "#40a9ff",
+          opacity: 1
+        },
+        "&:focus": {
+          color: "#40a9ff"
+        },
+        padding: "12px 16px !important"
+      },
+      selected: {
+        color: "#1890ff !important",
+        fontWeight: 500
+      },
+      labelContainer: {
+        padding: "0 !important"
+      }
+    },
+    MuiTabs: {
+      root: {
+        borderBottom: "1px solid #e8e8e8"
+      },
+      indicator: {
+        backgroundColor: "#1890ff"
+      }
     }
   },
   typography: {
@@ -82,17 +117,12 @@ const theme = createMuiTheme({
       fontFamily: fontFamilies.openSans,
       color: colors.secondaryHeading1,
       fontSize: fontSizes.caption3
-    },
+    }
   }
 });
 
-
 export function SpaceCloudTheme(props: any) {
-  return (
-    <MuiThemeProvider theme={theme}>
-      {props.children}
-    </MuiThemeProvider>
-  );
+  return <MuiThemeProvider theme={theme}>{props.children}</MuiThemeProvider>;
 }
 
-export default SpaceCloudTheme
+export default SpaceCloudTheme;

@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import SidenavComponent from "./SidenavComponent";
 import TopbarComponent from "./topbar/TopbarComponent";
 import OverviewComponent from "./sections/overview/OverviewComponent";
+import DatabaseContainer from "./sections/database/DatabaseContainer";
 
 const styles = (theme: any) => ({
   root: {
@@ -17,7 +18,6 @@ const styles = (theme: any) => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3
   },
   toolbar: theme.mixins.toolbar
 });
@@ -32,7 +32,8 @@ function PermanentDrawerLeft(props: any) {
       <TopbarComponent unsavedChanges={false}/>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Route exact path="/projects/:projectId" component={OverviewComponent} />
+        <Route exact path="/projects/:projectId/:env" component={OverviewComponent} />
+        <Route exact path="/projects/:projectId/:env/database" component={DatabaseContainer} />
       </main>
     </div>
   );

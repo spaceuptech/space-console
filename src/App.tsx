@@ -13,7 +13,7 @@ class App extends React.Component<{}, {}> {
           <div style={{ height: "100%" }}>
             <Route exact path="/" component={HomeComponent} />
             <Route
-              path="/projects/:projectId"
+              path="/projects/:projectId/:env"
               render={routeProps => <ProjectComponent {...routeProps}/>}
             />
           </div>
