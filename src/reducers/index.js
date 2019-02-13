@@ -36,8 +36,34 @@ const initialState = {
               "auth": {
                 "facebook": {
                   "enabled": true,
-                  "id": "fghj",
-                  "secret": "vbnm" 
+                  "id": "",
+                  "secret": "",
+                  "host": "",
+                  "redirect": ""
+                },
+                "google": {
+                  "enabled": false,
+                  "id": "",
+                  "secret": "",
+                  "host": "",
+                  "redirect": ""
+                },
+                "twitter": {
+                  "enabled": true,
+                  "id": "",
+                  "secret": "",
+                  "host": "",
+                  "redirect": ""
+                },
+                "github": {
+                  "enabled": true,
+                  "id": "",
+                  "secret": "",
+                  "host": "",
+                  "redirect": ""
+                },
+                "email": {
+                  "enabled": true
                 }
               },
               "faas": {

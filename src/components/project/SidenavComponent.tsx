@@ -52,11 +52,12 @@ const styles = (theme: any) => ({
 
 interface SidenavProps {
   classes: any;
-  projectId: string
+  projectId: string;
+  env: string;
 }
 
 const SidenavComponent: React.SFC<SidenavProps> = props => {
-  const { classes, projectId } = props;
+  const { classes, projectId, env } = props;
   return (
     <Drawer
       className={classes.drawer}
@@ -83,7 +84,7 @@ const SidenavComponent: React.SFC<SidenavProps> = props => {
             <ListItemText primary="All Projects" />
           </ListItem>
         </Link>
-        <Link to={`/projects/${projectId}`} className={classes.link}>
+        <Link to={`/projects/${projectId}/dev`} className={classes.link}>
           <ListItem className={classes.listItemText} button>
             <ListItemIcon className={classes.listItemIcon}>
               <HomeIcon />
@@ -91,7 +92,10 @@ const SidenavComponent: React.SFC<SidenavProps> = props => {
             <ListItemText primary="Project Overview" />
           </ListItem>
         </Link>
-        <Link to={`/projects/${projectId}/user-management`} className={classes.link}>
+        <Link
+          to={`/projects/${projectId}/dev/user-management`}
+          className={classes.link}
+        >
           <ListItem className={classes.listItemText} button>
             <ListItemIcon className={classes.listItemIcon}>
               <GroupIcon />
@@ -99,7 +103,7 @@ const SidenavComponent: React.SFC<SidenavProps> = props => {
             <ListItemText primary="User Management" />
           </ListItem>
         </Link>
-        <Link to={`/projects/${projectId}/database`} className={classes.link}>
+        <Link to={`/projects/${projectId}/dev/database`} className={classes.link}>
           <ListItem className={classes.listItemText} button>
             <ListItemIcon className={classes.listItemIcon}>
               <DnsIcon />
@@ -107,7 +111,7 @@ const SidenavComponent: React.SFC<SidenavProps> = props => {
             <ListItemText primary="Database" />
           </ListItem>
         </Link>
-        <Link to={`/projects/${projectId}/realtime`} className={classes.link}>
+        <Link to={`/projects/${projectId}/dev/realtime`} className={classes.link}>
           <ListItem className={classes.listItemText} button>
             <ListItemIcon className={classes.listItemIcon}>
               <NotificationsActiveIcon />
@@ -115,7 +119,7 @@ const SidenavComponent: React.SFC<SidenavProps> = props => {
             <ListItemText primary="Real-Time" />
           </ListItem>
         </Link>
-        <Link to={`/projects/${projectId}/functions`} className={classes.link}>
+        <Link to={`/projects/${projectId}/dev/functions`} className={classes.link}>
           <ListItem className={classes.listItemText} button>
             <ListItemIcon className={classes.listItemIcon}>
               <CodeIcon />
@@ -123,7 +127,7 @@ const SidenavComponent: React.SFC<SidenavProps> = props => {
             <ListItemText primary="Functions" />
           </ListItem>
         </Link>
-        <Link to={`/projects/${projectId}/configure`} className={classes.link}>
+        <Link to={`/projects/${projectId}/dev/configure`} className={classes.link}>
           <ListItem className={classes.listItemText} button>
             <ListItemIcon className={classes.listItemIcon}>
               <SettingsIcon />

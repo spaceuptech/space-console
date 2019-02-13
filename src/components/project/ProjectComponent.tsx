@@ -9,6 +9,7 @@ import SidenavComponent from "./SidenavComponent";
 import TopbarComponent from "./topbar/TopbarComponent";
 import OverviewComponent from "./sections/overview/OverviewComponent";
 import DatabaseContainer from "./sections/database/DatabaseContainer";
+import UserManagementContainer from "./sections/user-management/UserManagementContainer";
 
 const styles = (theme: any) => ({
   root: {
@@ -28,11 +29,12 @@ function PermanentDrawerLeft(props: any) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <SidenavComponent projectId={props.match.params.projectId} />
+      <SidenavComponent projectId={props.match.params.projectId} env={props.match.params.env}/>
       <TopbarComponent unsavedChanges={false}/>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Route exact path="/projects/:projectId/:env" component={OverviewComponent} />
+        <Route exact path="/projects/:projectId/:env/user-management" component={UserManagementContainer} />
         <Route exact path="/projects/:projectId/:env/database" component={DatabaseContainer} />
       </main>
     </div>

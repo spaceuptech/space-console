@@ -12,7 +12,7 @@ function getProjects(config: any) {
 
 const mapStateToProps = (state: any) => {
   return {
-    projects: getProjects(state.config)
+    projects: getProjects(state.currentConfig)
   }
 }
 

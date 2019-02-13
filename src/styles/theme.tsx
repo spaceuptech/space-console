@@ -2,6 +2,8 @@ import * as React from "react";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { colors, fontFamilies, fontSizes } from "./constants";
 
+const defaultTheme = createMuiTheme();
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -59,7 +61,7 @@ const theme = createMuiTheme({
         fontSize: 16,
         width: "100%",
         height: "38px",
-        padding: "4px 12px",
+        padding: "4px 12px !important",
         transition: "all .3s",
         borderColor: "1px solid #d9d9d9",
         fontFamily: "inherit",
@@ -71,11 +73,60 @@ const theme = createMuiTheme({
       },
       root: {
         background: "white !important",
-        width: "100%",
         borderColor: "1px solid #d9d9d9",
         "label + &": {
           marginTop: 24
         }
+      },
+      inputMarginDense: {
+        height: "30px"
+      }
+    },
+    MuiSwitch: {
+      switchBase: {
+        "&$iOSChecked": {
+          color: defaultTheme.palette.common.white,
+          "& + $iOSBar": {
+            opacity: 1
+          }
+        },
+        transition: defaultTheme.transitions.create("transform", {
+          duration: defaultTheme.transitions.duration.shortest,
+          easing: defaultTheme.transitions.easing.sharp
+        })
+      },
+      bar: {
+        "& + $iOSBar": {
+          opacity: 1
+        },
+        borderRadius: 13,
+        width: 42,
+        height: 26,
+        marginTop: -13,
+        marginLeft: -21,
+        border: "solid 1px",
+        borderColor: defaultTheme.palette.grey[400],
+        backgroundColor: defaultTheme.palette.grey[50],
+        opacity: 1,
+        transition: defaultTheme.transitions.create([
+          "background-color",
+          "border"
+        ])
+      },
+      iconChecked: {
+        boxShadow: defaultTheme.shadows[1]
+      },
+      checked: {
+        transform: "translateX(15px)",
+        "& + $iOSBar": {
+          opacity: 1,
+          border: "none"
+        },
+      },
+      icon: {
+        color: "white",
+        width: 24,
+        height: 24
       }
     }
   },
