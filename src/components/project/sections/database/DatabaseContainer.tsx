@@ -65,7 +65,6 @@ function selectDb(projectId: string, env: string, dbType: string) {
 const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   const projectId = ownProps.match.params.projectId;
   const env = ownProps.match.params.env;
-  const selectedDb = store.getState().uiState.crud.selectedDb;
   return {
     addSecondaryDb: (dbType: string) => {
       dispatch(
@@ -80,16 +79,19 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
       );
     },
     removeSecondaryDb: (dbType: string) => {
-      let currentConfig = store.getState().currentConfig;
-      delete currentConfig.projects[projectId].env[env].modules.crud[dbType];
-      dispatch(set("currentConfig", currentConfig));
-
-      // If removed db was a selected db then change selected db
+      // If db to be removed is a selected one then first change selected db to primary db
+      const selectedDb = store.getState().uiState.crud.selectedDb;
       if (selectedDb === dbType) {
         selectDb(projectId, env, getPrimaryDb(projectId, env));
       }
+
+      // Remove db
+      let currentConfig = store.getState().currentConfig;
+      delete currentConfig.projects[projectId].env[env].modules.crud[dbType];
+      dispatch(set("currentConfig", currentConfig));
     },
     addTable: (name: string) => {
+      const selectedDb = store.getState().uiState.crud.selectedDb;
       dispatch(
         upsert(
           `currentConfig.projects.${projectId}.env.${env}.modules.crud.${selectedDb}.collections.${name}`,
@@ -114,6 +116,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
       dispatch(set(`uiState.crud.selectedTable`, name));
     },
     removeTable: (tableName: string) => {
+      const selectedDb = store.getState().uiState.crud.selectedDb;
       let currentConfig = store.getState().currentConfig;
       delete currentConfig.projects[projectId].env[env].modules.crud[selectedDb]
         .collections[tableName];
@@ -124,12 +127,15 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
       if (selectedTable === tableName) {
         const colls = getCollections(projectId, env, selectedDb);
         if (Object.keys(colls).length) {
-          store.dispatch(set("uiState.crud.selectedTable", Object.keys(colls)[0]));
+          store.dispatch(
+            set("uiState.crud.selectedTable", Object.keys(colls)[0])
+          );
         }
       }
     },
     updateSecurityRules: (rules: string) => {
       const selectedTable = store.getState().uiState.crud.selectedTable;
+      const selectedDb = store.getState().uiState.crud.selectedDb;
       dispatch(
         set(
           `currentConfig.projects.${projectId}.env.${env}.modules.crud.${selectedDb}.collections.${selectedTable}.rules`,
@@ -138,12 +144,13 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
       );
     },
     updateConnString: (conn: string) => {
-        dispatch(
-          set(
-            `currentConfig.projects.${projectId}.env.${env}.modules.crud.${selectedDb}.conn`,
-            conn
-          )
-        );
+      const selectedDb = store.getState().uiState.crud.selectedDb;
+      dispatch(
+        set(
+          `currentConfig.projects.${projectId}.env.${env}.modules.crud.${selectedDb}.conn`,
+          conn
+        )
+      );
     },
     selectTable: (table: string) =>
       dispatch(set("uiState.crud.selectedTable", table)),

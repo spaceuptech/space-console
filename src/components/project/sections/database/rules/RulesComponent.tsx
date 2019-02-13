@@ -131,7 +131,7 @@ class RulesApp extends React.Component<Props, any> {
               <div className={classes.connSection}>
                 <span className={classes.connLabel}>Connection String: </span>
                 <div className={classes.inputWrapper}>
-                  <InputBase value={this.props.connString} onChange={(event: any) => {
+                  <InputBase fullWidth={true} value={this.props.connString} onChange={(event: any) => {
                     this.props.updateConnString(event.target.value)
                   }}/>
                 </div>

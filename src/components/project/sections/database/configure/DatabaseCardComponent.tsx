@@ -33,7 +33,9 @@ const styles = (theme: any) => ({
   },
   buttonHolder: {
     textAlign: "center" as "center",
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit * 2,
+    display: "flex",
+    justifyContent: "space-around"
   },
   button: {
     width: "120px",
@@ -72,14 +74,14 @@ const DatabaseCardComponent: React.SFC<Prop> = props => {
   const onButtonClick = (e: any) => {
     if (isPrimary) {
       configure(dbType);
-      return
+      return;
     }
     if (isSecondary) {
       remove(dbType);
-      return
+      return;
     }
     add(dbType);
-  }
+  };
   return (
     <div className={classes.card}>
       <div className={classes.logoWrapper}>
@@ -89,15 +91,28 @@ const DatabaseCardComponent: React.SFC<Prop> = props => {
         <Typography className={classes.title}>{name}</Typography>
         <Typography className={classes.desc}>{desc}</Typography>
         <div className={classes.buttonHolder}>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="small"
-            className={classes.button}
-            onClick={onButtonClick}
-          >
-            {isPrimary ? "Configure": (isSecondary? "Remove": "Add")}
-          </Button>
+          {(isPrimary || isSecondary) && (
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              className={classes.button}
+              onClick={(e: any) => configure(dbType)}
+            >
+              Configure
+            </Button>
+          )}
+          {!isPrimary && (
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="small"
+              className={classes.button}
+              onClick={(e: any) => (isSecondary ? remove(dbType) : add(dbType))}
+            >
+              {isSecondary ? "Remove" : "Add"}
+            </Button>
+          )}
         </div>
       </div>
     </div>
