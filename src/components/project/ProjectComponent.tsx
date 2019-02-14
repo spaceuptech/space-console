@@ -1,5 +1,5 @@
 import React from "react";
-import {Route} from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -18,24 +18,39 @@ const styles = (theme: any) => ({
   },
   content: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.default
   },
   toolbar: theme.mixins.toolbar
 });
 
 function PermanentDrawerLeft(props: any) {
-  const { classes } = props;
-
+  const { classes, url } = props;
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <SidenavComponent projectId={props.match.params.projectId} env={props.match.params.env}/>
-      <TopbarComponent unsavedChanges={false}/>
+      <SidenavComponent
+        projectId={props.match.params.projectId}
+        env={props.match.params.env}
+        url={props.location.pathname}
+      />
+      <TopbarComponent unsavedChanges={false} />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Route exact path="/projects/:projectId/:env" component={OverviewComponent} />
-        <Route exact path="/projects/:projectId/:env/user-management" component={UserManagementContainer} />
-        <Route exact path="/projects/:projectId/:env/database" component={DatabaseContainer} />
+        <Route
+          exact
+          path="/projects/:projectId/:env"
+          component={OverviewComponent}
+        />
+        <Route
+          exact
+          path="/projects/:projectId/:env/user-management"
+          component={UserManagementContainer}
+        />
+        <Route
+          exact
+          path="/projects/:projectId/:env/database"
+          component={DatabaseContainer}
+        />
       </main>
     </div>
   );

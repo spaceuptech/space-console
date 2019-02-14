@@ -13,6 +13,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import ExploreIcon from "@material-ui/icons/Explore";
 import GroupIcon from "@material-ui/icons/Group";
 import DnsIcon from "@material-ui/icons/Dns";
+import FolderIcon from "@material-ui/icons/Folder";
 import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import CodeIcon from "@material-ui/icons/Code";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -54,10 +55,12 @@ interface SidenavProps {
   classes: any;
   projectId: string;
   env: string;
+  url: string;
 }
 
 const SidenavComponent: React.SFC<SidenavProps> = props => {
-  const { classes, projectId, env } = props;
+  const { classes, projectId, env, url } = props;
+
   return (
     <Drawer
       className={classes.drawer}
@@ -84,8 +87,12 @@ const SidenavComponent: React.SFC<SidenavProps> = props => {
             <ListItemText primary="All Projects" />
           </ListItem>
         </Link>
-        <Link to={`/projects/${projectId}/dev`} className={classes.link}>
-          <ListItem className={classes.listItemText} button>
+        <Link to={`/projects/${projectId}/${env}`} className={classes.link}>
+          <ListItem
+            selected={url === `/projects/${projectId}/${env}`}
+            className={classes.listItemText}
+            button
+          >
             <ListItemIcon className={classes.listItemIcon}>
               <HomeIcon />
             </ListItemIcon>
@@ -93,42 +100,89 @@ const SidenavComponent: React.SFC<SidenavProps> = props => {
           </ListItem>
         </Link>
         <Link
-          to={`/projects/${projectId}/dev/user-management`}
+          to={`/projects/${projectId}/${env}/user-management`}
           className={classes.link}
         >
-          <ListItem className={classes.listItemText} button>
+          <ListItem
+            className={classes.listItemText}
+            selected={url === `/projects/${projectId}/${env}/user-management`}
+            button
+          >
             <ListItemIcon className={classes.listItemIcon}>
               <GroupIcon />
             </ListItemIcon>
             <ListItemText primary="User Management" />
           </ListItem>
         </Link>
-        <Link to={`/projects/${projectId}/dev/database`} className={classes.link}>
-          <ListItem className={classes.listItemText} button>
+        <Link
+          to={`/projects/${projectId}/${env}/database`}
+          className={classes.link}
+        >
+          <ListItem
+            className={classes.listItemText}
+            selected={url === `/projects/${projectId}/${env}/database`}
+            button
+          >
             <ListItemIcon className={classes.listItemIcon}>
               <DnsIcon />
             </ListItemIcon>
             <ListItemText primary="Database" />
           </ListItem>
         </Link>
-        <Link to={`/projects/${projectId}/dev/realtime`} className={classes.link}>
-          <ListItem className={classes.listItemText} button>
+        <Link
+          to={`/projects/${projectId}/${env}/filestore`}
+          className={classes.link}
+        >
+          <ListItem
+            className={classes.listItemText}
+            selected={url === `/projects/${projectId}/${env}/filestore`}
+            button
+          >
+            <ListItemIcon className={classes.listItemIcon}>
+              <FolderIcon />
+            </ListItemIcon>
+            <ListItemText primary="File Store" />
+          </ListItem>
+        </Link>
+        <Link
+          to={`/projects/${projectId}/${env}/realtime`}
+          className={classes.link}
+        >
+          <ListItem
+            className={classes.listItemText}
+            selected={url === `/projects/${projectId}/${env}/realtime`}
+            button
+          >
             <ListItemIcon className={classes.listItemIcon}>
               <NotificationsActiveIcon />
             </ListItemIcon>
             <ListItemText primary="Real-Time" />
           </ListItem>
         </Link>
-        <Link to={`/projects/${projectId}/dev/functions`} className={classes.link}>
-          <ListItem className={classes.listItemText} button>
+        <Link
+          to={`/projects/${projectId}/${env}/functions`}
+          className={classes.link}
+        >
+          <ListItem
+            className={classes.listItemText}
+            selected={url === `/projects/${projectId}/${env}/functions`}
+            button
+          >
             <ListItemIcon className={classes.listItemIcon}>
               <CodeIcon />
             </ListItemIcon>
             <ListItemText primary="Functions" />
           </ListItem>
         </Link>
-        <Link to={`/projects/${projectId}/dev/configure`} className={classes.link}>
-          <ListItem className={classes.listItemText} button>
+        <Link
+          to={`/projects/${projectId}/${env}/configure`}
+          className={classes.link}
+        >
+          <ListItem
+            className={classes.listItemText}
+            selected={url === `/projects/${projectId}/${env}/configure`}
+            button
+          >
             <ListItemIcon className={classes.listItemIcon}>
               <SettingsIcon />
             </ListItemIcon>
