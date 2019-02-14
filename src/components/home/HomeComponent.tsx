@@ -6,10 +6,10 @@ import ProjectsContainer from "./projects/ProjectsContainer";
 
 const styles = (theme: any) => ({
   content: {
-    position: "fixed" as "fixed",
     top: "64px",
     left: 0,
     right: 0,
+    marginTop: "80px",
     padding: theme.spacing.unit * 4
   }
 })

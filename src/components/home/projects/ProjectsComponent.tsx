@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Modal from '@material-ui/core/Modal';
 import { Project } from "./ProjectCardComponent";
 import ProjectCard from "./ProjectCardComponent";
 
@@ -43,9 +44,19 @@ interface Props {
 }
 
 class Projects extends React.Component<Props, any> {
+
+  constructor(props: Props) {
+    super(props);
+    this.state = { openModal: false };
+  }
+
+  toggleModalVisibility = () => {
+    console.log(!this.state.openModal);
+    this.setState({ openModal: !this.state.openModal });
+  };
+
   public render() {
     const { classes, projects } = this.props;
-
     return (
       <div className={classes.container}>
         <div>
@@ -55,10 +66,27 @@ class Projects extends React.Component<Props, any> {
             className={classes.button}
             color="primary"
             size="large"
+            onClick={this.toggleModalVisibility}
           >
             <AddIcon />
             Add Project
           </Button>
+          <Modal
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            open={this.state.openModal}
+            onClose={this.toggleModalVisibility}
+          >
+            <div style={{position: 'absolute',backgroundColor: "#fff",
+    outline: 'none',}}>
+              <Typography variant="h6" id="modal-title">
+                Text in a modal
+            </Typography>
+              <Typography variant="subtitle1" id="simple-modal-description">
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </Typography>
+            </div>
+          </Modal>
         </div>
         <div className={classes.projectSection}>
           {projects.length && (
