@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { Project } from "./ProjectCardComponent";
 import ProjectCard from "./ProjectCardComponent";
+import AddProjectComponent from "./AddProjectComponent";
 
 const noProjectsImg = require("../../../images/noProjects.jpg");
 
@@ -39,12 +40,35 @@ const styles = (theme: any) => ({
 
 interface Props {
   classes: any;
+  createProject: (projectName: string, primaryDb: string) => void;
   projects: Project[];
 }
 
-class Projects extends React.Component<Props, any> {
+interface State {
+  modalVisible: boolean;
+}
+
+class Projects extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = { modalVisible: false };
+
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  }
+
+  handleClick(e: any) {
+    this.setState({ modalVisible: true });
+  }
+
+  handleClose(e: any) {
+    this.setState({ modalVisible: false });
+  }
+
   public render() {
-    const { classes, projects } = this.props;
+    const { classes, projects, createProject } = this.props;
+    const { modalVisible } = this.state;
 
     return (
       <div className={classes.container}>
@@ -55,10 +79,16 @@ class Projects extends React.Component<Props, any> {
             className={classes.button}
             color="primary"
             size="large"
+            onClick={this.handleClick}
           >
             <AddIcon />
             Add Project
           </Button>
+          <AddProjectComponent
+            open={modalVisible}
+            handleClose={this.handleClose}
+            createProject={createProject}
+          />
         </div>
         <div className={classes.projectSection}>
           {projects.length && (

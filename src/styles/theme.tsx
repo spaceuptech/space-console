@@ -52,6 +52,13 @@ const theme = createMuiTheme({
         backgroundColor: "#1890ff"
       }
     },
+    MuiSelect: {
+      selectMenu: {
+        height: "38px",
+        display: "flex",
+        alignItems: "center"
+      }
+    },
     MuiInputBase: {
       input: {
         borderRadius: 2,

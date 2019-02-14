@@ -1,21 +1,33 @@
 import { connect } from "react-redux";
 import ProjectsComponent from "./ProjectsComponent";
+import { upsert } from "../../../reducers/helper";
 
 function getProjects(config: any) {
   if (!config || !config.projects) {
-    return []
+    return [];
   }
 
   const projectsMap = config.projects;
-  return Object.keys(projectsMap).map(k => ({id: k, name: projectsMap[k].name}))
+  return Object.keys(projectsMap).map(k => ({
+    id: k,
+    name: projectsMap[k].name
+  }));
 }
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    createProject: (projectName: string, primaryDb: string) => {
+      console.log(projectName, primaryDb);
+    }
+  };
+};
 
 const mapStateToProps = (state: any) => {
   return {
     projects: getProjects(state.currentConfig)
-  }
-}
+  };
+};
 
-const ProjectsContainer = connect(mapStateToProps)(ProjectsComponent)
+const ProjectsContainer = connect(mapStateToProps, mapDispatchToProps)(ProjectsComponent);
 
-export default ProjectsContainer
+export default ProjectsContainer;

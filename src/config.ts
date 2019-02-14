@@ -1,4 +1,4 @@
-const config: any = {
+export const config: any = {
   crud: {
     "sql-mysql": {
       name: "MySQL",
