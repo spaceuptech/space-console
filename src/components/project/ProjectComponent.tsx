@@ -10,6 +10,7 @@ import TopbarComponent from "./topbar/TopbarComponent";
 import OverviewComponent from "./sections/overview/OverviewComponent";
 import DatabaseContainer from "./sections/database/DatabaseContainer";
 import UserManagementContainer from "./sections/user-management/UserManagementContainer";
+import FilestoreContainer from "./sections/filestore/FilestoreContainer";
 
 const styles = (theme: any) => ({
   root: {
@@ -50,6 +51,11 @@ function PermanentDrawerLeft(props: any) {
           exact
           path="/projects/:projectId/:env/database"
           component={DatabaseContainer}
+        />
+        <Route
+          exact
+          path="/projects/:projectId/:env/filestore"
+          component={FilestoreContainer}
         />
       </main>
     </div>

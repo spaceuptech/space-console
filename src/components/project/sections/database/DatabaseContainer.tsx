@@ -99,11 +99,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
             isRealtimeEnabled: false,
             rules: JSON.stringify(
               {
-                isSecondary: true,
-                conn: "",
-                rules: "",
-                query: { rule: "allow" },
-                insert: { rule: "allow" },
+                create: { rule: "allow" },
+                read: { rule: "allow" },
                 update: { rule: "allow" },
                 delete: { rule: "allow" }
               },

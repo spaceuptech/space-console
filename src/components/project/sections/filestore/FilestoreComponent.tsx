@@ -1,9 +1,10 @@
 import * as React from "react";
 
 import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import ConfigureDatabaseComponent from "./configure/ConfigureDatabaseComponent";
+import ConfigureFilestoreComponent from "./configure/ConfigureFilestoreComponent";
 import RulesComponent from "../../../general/rules/RulesComponent";
 import Grid from "@material-ui/core/Grid";
 
@@ -12,6 +13,9 @@ const styles = (theme: any) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper
   },
+  title: {
+    ...theme.typography.display2
+  },
   content: {
     marginTop: theme.spacing.unit * 4
   }
@@ -19,21 +23,19 @@ const styles = (theme: any) => ({
 
 interface Props {
   classes: any;
-  dbsMap: any;
-  selectedDb: any;
-  selectedTable: any;
-  selectedTab: any;
-  collections: any;
-  securityRules: string;
+  selectedRule: string;
+  selectedTab: number;
+  enabled: boolean;
+  storeType: string;
   connString: string;
-  addSecondaryDb: (dbType: string) => void;
-  removeSecondaryDb: (dbType: string) => void;
+  rulesList: string[];
+  securityRules: string;
+  enableFileStore: (storeType: string) => void;
   updateConnString: (connString: string) => void;
-  addTable: (tableName: string) => void;
-  removeTable: (tableName: string) => void;
+  addRule: (ruleName: string) => void;
+  removeRule: (ruleName: string) => void;
   updateSecurityRules: (rules: string) => void;
-  selectDb: (dbType: string) => void;
-  selectTable: (tableName: string) => void;
+  selectRule: (tableName: string) => void;
   selectTab: (tabIndex: number) => void;
 }
 
@@ -41,22 +43,20 @@ class DatabaseComponent extends React.Component<Props, any> {
   constructor(props: Props) {
     super(props);
 
-    this.configureDb = this.configureDb.bind(this);
+    this.configure = this.configure.bind(this);
     this.handleTabChange = this.handleTabChange.bind(this);
   }
 
-  configureDb(dbType: string) {
-    this.props.selectDb(dbType);
+  configure() {
     this.props.selectTab(1);
   }
 
   handleTabChange(event: any, tabIndex: number) {
     this.props.selectTab(tabIndex);
   }
+
   public render() {
     const { classes, selectedTab } = this.props;
-    const ruleLabel =
-      this.props.selectedDb === "mongo" ? "Collection" : "Table";
     return (
       <div className={classes.root}>
         <Tabs value={selectedTab} onChange={this.handleTabChange}>
@@ -67,25 +67,31 @@ class DatabaseComponent extends React.Component<Props, any> {
           <Grid item sm={1} />
           <Grid item sm={10}>
             {selectedTab === 0 && (
-              <ConfigureDatabaseComponent
-                dbsMap={this.props.dbsMap}
-                addSecondaryDb={this.props.addSecondaryDb}
-                removeSecondaryDb={this.props.removeSecondaryDb}
-                configure={this.configureDb}
+              <ConfigureFilestoreComponent
+                storeType={this.props.storeType}
+                enable={this.props.enableFileStore}
+                configure={this.configure}
               />
             )}
             {selectedTab === 1 && (
-              <RulesComponent
-                ruleLabel={ruleLabel}
-                rule={this.props.securityRules}
-                rulesList={this.props.collections}
-                connString={this.props.connString}
-                updateRule={this.props.updateSecurityRules}
-                addRule={this.props.addTable}
-                selectRule={this.props.selectTable}
-                removeRule={this.props.removeTable}
-                updateConnString={this.props.updateConnString}
-              />
+              <React.Fragment>
+                {this.props.enabled && (
+                  <RulesComponent
+                    ruleLabel="Rule"
+                    rule={this.props.securityRules}
+                    rulesList={this.props.rulesList}
+                    connString={this.props.connString}
+                    updateRule={this.props.updateSecurityRules}
+                    addRule={this.props.addRule}
+                    selectRule={this.props.selectRule}
+                    removeRule={this.props.removeRule}
+                    updateConnString={this.props.updateConnString}
+                  />
+                )}
+                {!this.props.enabled && (
+                  <Typography className={classes.title}>Enable the file storage module first to write security rules</Typography>
+                )}
+              </React.Fragment>
             )}
           </Grid>
         </Grid>

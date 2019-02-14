@@ -28,6 +28,12 @@ const initialState = {
                   isPrimary: "true"
                 }
               },
+              fileStore: {
+                enabled: false,
+                storeType: "",
+                conn: "",
+                rules: {}
+              },
               auth: {
                 facebook: {
                   enabled: true,
@@ -80,6 +86,10 @@ const initialState = {
       selectedTab: 1,
       selectedDb: "sql-mysql",
       selectedTable: "table1"
+    },
+    fileStore: {
+      selectedTab: 0,
+      selectedRule: ""
     }
   }
 };

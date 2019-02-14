@@ -5,10 +5,12 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 
 import DatabaseCardComponent from "./DatabaseCardComponent";
-import dbsInfo from "../config";
 
-function getDetailedDbConfigs(dbsInfo: any, dbsMap: any): any {
+import config from "../../../../../config";
+
+function getDetailedDbConfigs(dbsMap: any): any {
   let result: any = [];
+  const dbsInfo = config.crud;
   Object.keys(dbsInfo).forEach(dbType => {
     let dbConfig = Object.assign({}, { dbType }, dbsInfo[dbType], {
       isSecondary: dbsMap[dbType],
@@ -51,7 +53,7 @@ class ConfigureDatabaseComponent extends React.Component<Props, State> {
 
   public render() {
     const { classes, dbsMap, addSecondaryDb, removeSecondaryDb, configure } = this.props;
-    const dbConfigsDetailed = getDetailedDbConfigs(dbsInfo, dbsMap);
+    const dbConfigsDetailed = getDetailedDbConfigs(dbsMap);
     return (
       <div>
         <Typography className={classes.title}>Select Databases</Typography>
