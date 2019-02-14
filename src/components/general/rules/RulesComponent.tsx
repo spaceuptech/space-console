@@ -16,7 +16,9 @@ import "codemirror/addon/selection/active-line.js";
 import "codemirror/addon/edit/matchbrackets.js";
 import "codemirror/addon/edit/closebrackets.js";
 
-import { colors } from "../../../../../styles/constants";
+import { colors } from "../../../styles/constants";
+
+import AddRuleComponent from "./AddRuleComponent";
 
 const styles = (theme: any) => ({
   card: {
@@ -41,7 +43,8 @@ const styles = (theme: any) => ({
     alignItems: "center",
     ...theme.typography.display3,
     color: colors.secondaryColor,
-    paddingLeft: theme.spacing.unit * 2
+    paddingLeft: theme.spacing.unit * 2,
+    cursor: "pointer"
   },
   addLabel: {
     marginLeft: theme.spacing.unit
@@ -81,45 +84,66 @@ const styles = (theme: any) => ({
   }
 });
 
-export interface Props {
+interface Props {
   classes: any;
-  dbsMap: any;
-  collections: string[];
-  securityRules: string;
+  ruleLabel: string;
+  rulesList: string[];
+  rule: string;
   connString: string;
-  selectDb: (dbType: string) => void;
-  selectTable: (tableName: string) => void;
-  addTable: (tableName: string) => void;
-  removeTable: (tableName: string) => void;
-  updateSecurityRules: (rules: string) => void;
+  selectRule: (tableName: string) => void;
+  addRule: (tableName: string) => void;
+  removeRule: (tableName: string) => void;
+  updateRule: (rules: string) => void;
   updateConnString: (conn: string) => void;
 }
 
-class RulesApp extends React.Component<Props, any> {
+interface State {
+  modalVisible: boolean;
+}
+
+class RulesApp extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.state = { modalVisible: false };
+
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  }
+
+  handleClick(e: any) {
+    this.setState({ modalVisible: true });
+  }
+
+  handleClose(e: any) {
+    this.setState({ modalVisible: false });
+  }
+
   public render() {
     const { classes } = this.props;
+    const { modalVisible } = this.state;
     return (
       <div>
         <Grid className={classes.card} container spacing={0}>
           <Grid className={classes.leftSection} item sm={3}>
-            <div className={classes.addSection}>
+            <div className={classes.addSection} onClick={this.handleClick}>
               <AddIcon />
-              <span className={classes.addSection.label}>Collection</span>
+              <span className={classes.addLabel}>{this.props.ruleLabel}</span>
             </div>
             <Divider />
             <div>
-              {this.props.collections.map(col => (
+              {this.props.rulesList.map(ruleName => (
                 <div
                   className={classes.collectionHolder}
                   onClick={(event: any) => {
-                    this.props.selectTable(col);
+                    this.props.selectRule(ruleName);
                   }}
                 >
-                  {col}
+                  {ruleName}
                   <DeleteIcon
                     className={classes.deleteIcon}
                     onClick={(event: any) => {
-                      this.props.removeTable(col);
+                      this.props.removeRule(ruleName);
                     }}
                   />
                 </div>
@@ -131,35 +155,49 @@ class RulesApp extends React.Component<Props, any> {
               <div className={classes.connSection}>
                 <span className={classes.connLabel}>Connection String: </span>
                 <div className={classes.inputWrapper}>
-                  <InputBase fullWidth={true} value={this.props.connString} onChange={(event: any) => {
-                    this.props.updateConnString(event.target.value)
-                  }}/>
+                  <InputBase
+                    fullWidth={true}
+                    value={this.props.connString}
+                    onChange={(event: any) => {
+                      this.props.updateConnString(event.target.value);
+                    }}
+                  />
                 </div>
               </div>
-              <CodeMirror
-                value={this.props.securityRules}
-                options={{
-                  mode: { name: "javascript", json: true },
-                  lineNumbers: true,
-                  styleActiveLine: true,
-                  matchBrackets: true,
-                  autoCloseBrackets: true,
-                  tabSize: 2
-                }}
-                onBeforeChange={(editor, data, value) => {
-                  this.props.updateSecurityRules(value);
-                }}
-                onChange={(editor, data, value) =>
-                  this.props.updateSecurityRules(value)
-                }
-              />
-              <div className={classes.hintSection}>
-                Hint : To indent press ctrl + A in the editor and then shift +
-                tab
-              </div>
+              {this.props.rulesList.length > 0 && (
+                <React.Fragment>
+                  <CodeMirror
+                    value={this.props.rule}
+                    options={{
+                      mode: { name: "javascript", json: true },
+                      lineNumbers: true,
+                      styleActiveLine: true,
+                      matchBrackets: true,
+                      autoCloseBrackets: true,
+                      tabSize: 2
+                    }}
+                    onBeforeChange={(editor: any, data: any, value: string) => {
+                      this.props.updateRule(value);
+                    }}
+                    onChange={(editor: any, data: any, value: string) =>
+                      this.props.updateRule(value)
+                    }
+                  />
+                  <div className={classes.hintSection}>
+                    Hint : To indent press ctrl + A in the editor and then shift
+                    + tab
+                  </div>
+                </React.Fragment>
+              )}
             </div>
           </Grid>
         </Grid>
+        <AddRuleComponent
+          open={modalVisible}
+          handleClose={this.handleClose}
+          label={this.props.ruleLabel}
+          handleSubmit={this.props.addRule}
+        />
       </div>
     );
   }

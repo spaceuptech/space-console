@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import ConfigureDatabaseComponent from "./configure/ConfigureDatabaseComponent";
-import RulesComponent from "./rules/RulesComponent";
+import RulesComponent from "../../../general/rules/RulesComponent";
 import Grid from "@material-ui/core/Grid";
 
 const styles = (theme: any) => ({
@@ -59,7 +59,8 @@ class DatabaseComponent extends React.Component<Props, any> {
   }
   public render() {
     const { classes, selectedTab } = this.props;
-
+    const ruleLabel =
+      this.props.selectedDb === "mongo" ? "Collection" : "Table";
     return (
       <div className={classes.root}>
         <Tabs value={selectedTab} onChange={this.handleTabChange}>
@@ -79,15 +80,14 @@ class DatabaseComponent extends React.Component<Props, any> {
             )}
             {selectedTab === 1 && (
               <RulesComponent
-                securityRules={this.props.securityRules}
-                dbsMap={this.props.dbsMap}
-                collections={this.props.collections}
-                addTable={this.props.addTable}
-                removeTable={this.props.removeTable}
-                updateSecurityRules={this.props.updateSecurityRules}
-                selectDb={this.props.selectDb}
-                selectTable={this.props.selectTable}
+                ruleLabel={ruleLabel}
+                rule={this.props.securityRules}
+                rulesList={this.props.collections}
                 connString={this.props.connString}
+                updateRule={this.props.updateSecurityRules}
+                addRule={this.props.addTable}
+                selectRule={this.props.selectTable}
+                removeRule={this.props.removeTable}
                 updateConnString={this.props.updateConnString}
               />
             )}

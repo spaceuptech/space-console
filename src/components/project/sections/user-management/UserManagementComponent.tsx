@@ -63,9 +63,9 @@ class UserManagementComponent extends React.Component<Props, State> {
   }
 
   handleChange(panel: string): any {
-    return (event: any, expanded: string) => {
+    return (event: any, expanded: boolean) => {
       this.setState({
-        expanded: expanded
+        expanded: expanded ? panel: ""
       });
     };
   }
@@ -107,7 +107,7 @@ class UserManagementComponent extends React.Component<Props, State> {
                         onChange={(e: any, checked: boolean) => {
                           editAuthProvider("email", "enabled", checked);
                         }}
-                        checked={authConfig.facebook.enabled}
+                        checked={authConfig.email.enabled}
                       />
                     }
                     label=""
@@ -133,7 +133,7 @@ class UserManagementComponent extends React.Component<Props, State> {
                     </Grid>
                   </Grid>
                 </ExpansionPanelSummary>
-                <ExpansionPanelDetails className={classes.expansionPane}>
+                <ExpansionPanelDetails className={classes.expansionPane}>            
                   <FormControlLabel
                     control={
                       <Switch

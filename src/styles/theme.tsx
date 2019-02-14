@@ -34,11 +34,11 @@ const theme = createMuiTheme({
         "&:focus": {
           color: "#40a9ff"
         },
+        "&$selected": {
+          color: "#1890ff !important",
+          fontWeight: 500
+        },
         padding: "12px 16px !important"
-      },
-      selected: {
-        color: "#1890ff !important",
-        fontWeight: 500
       },
       labelContainer: {
         padding: "0 !important"
@@ -121,7 +121,7 @@ const theme = createMuiTheme({
         "& + $iOSBar": {
           opacity: 1,
           border: "none"
-        },
+        }
       },
       icon: {
         color: "white",
@@ -131,6 +131,7 @@ const theme = createMuiTheme({
     }
   },
   typography: {
+    useNextVariants: true,
     headline: {
       fontFamily: fontFamilies.raleway,
       color: colors.primaryNavy,

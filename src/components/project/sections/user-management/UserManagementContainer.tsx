@@ -9,7 +9,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   return {
     editAuthProvider: (authType: string, key: string, value: any) => {
       dispatch(
-        upsert(
+        set(
           `currentConfig.projects.${projectId}.env.${env}.modules.auth.${authType}.${key}`,
           value
         )
