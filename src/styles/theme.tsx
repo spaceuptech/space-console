@@ -1,6 +1,7 @@
 import * as React from "react";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { colors, fontFamilies, fontSizes } from "./constants";
+import color from "@material-ui/core/colors/teal";
 
 const defaultTheme = createMuiTheme();
 
@@ -51,6 +52,14 @@ const theme = createMuiTheme({
       indicator: {
         backgroundColor: "#1890ff"
       }
+    },
+    MuiButton: {
+      root: {
+        textTransform: "none",
+        "&:hover": {
+          backgroundColor: colors.primaryColor+ "!important",
+        },
+      },
     },
     MuiInputBase: {
       input: {
