@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import ProjectsComponent from "./ProjectsComponent";
-import { upsert } from "../../../reducers/helper";
 
 function getProjects(config: any) {
   if (!config || !config.projects) {
